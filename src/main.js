@@ -134,10 +134,10 @@ const addMetadata = (_dna, _edition) => {
     image: `${baseUri}/${_edition}.png`,
     attributes: attributesList,
     custom_fields: {
-      dna: sha1(_dna),
+      // dna: sha1(_dna),
       edition: _edition,
       date: dateTime,
-      compiler: "HashLips Art Engine - codeSTACKr Modified",
+      compiler: "Crottolo",
     },
     ...extraMetadata,
   };
@@ -194,23 +194,28 @@ const addText = (_sig, x, y, size) => {
   ctx.fillText(_sig, x, y);
 };
 
-const drawElement = (_renderObject, _index, _layersLen) => {
+const drawElement = (_renderObject, _index, _layersLen, _editionCount) => {
   ctx.globalAlpha = _renderObject.layer.opacity;
   ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
-    ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-      )
-    : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
+  num = "#"+_editionCount.toString().padStart(5, "0");
+  // text.only
+
+  ctx.drawImage(
+    _renderObject.loadedImage,
+    0,
+    0,
+    format.width,
+    format.height,
+  
+  );
+  ctx.fillStyle = text.color;
+  ctx.font = `${text.weight} ${text.size}pt ${text.family}`;
+  ctx.textBaseline = text.baseline;
+  ctx.textAlign = text.align;
+  text.xGap,
+  text.yGap * (_index + 1),
+  text.size
+  ctx.fillText(num, text.xGap,text.yGap * (_index + 1),);
 
   addAttributes(_renderObject);
 };
@@ -363,7 +368,7 @@ const startCreating = async () => {
         results.forEach((layer) => {
           loadedElements.push(loadLayerImg(layer));
         });
-
+        console.log(editionCount);
         await Promise.all(loadedElements).then((renderObjectArray) => {
           debugLogs ? console.log("Clearing canvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
@@ -380,12 +385,16 @@ const startCreating = async () => {
           }
           if (background.generate) {
             drawBackground();
+            
           }
           renderObjectArray.forEach((renderObject, index) => {
             drawElement(
               renderObject,
               index,
-              layerConfigurations[layerConfigIndex].layersOrder.length
+              editionCount,
+              layerConfigurations[layerConfigIndex].layersOrder.length,
+              
+              
             );
             if (gif.export) {
               hashlipsGiffer.add();
@@ -399,6 +408,7 @@ const startCreating = async () => {
             : null;
           saveImage(abstractedIndexes[0]);
           addMetadata(newDna, abstractedIndexes[0]);
+          // addMetadata(newDna, editionCount);
           saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
@@ -406,7 +416,7 @@ const startCreating = async () => {
             )}`
           );
         });
-        dnaList.add(filterDNAOptions(newDna));
+        // dnaList.add(filterDNAOptions(newDna));
         editionCount++;
         abstractedIndexes.shift();
       } else {

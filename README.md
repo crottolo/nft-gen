@@ -191,3 +191,4 @@ If you've reached your quota limit, contact NFTPort to upgrade your plan to get 
 - Use the `src/config.js` file to set up your layers and NFT information.
 
 ## Reference the [video](https://youtu.be/quGdJweadFM) for more details.
+# NFTs

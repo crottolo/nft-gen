@@ -6,22 +6,23 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "YOUR COLLECTION NAME";
-const description = "Remember to replace this description";
+const namePrefix = "La Mia Collezzione js";
+const description = "la piu bella collezione del mondo antico delle piante grasse";
 const baseUri = "ipfs://NewUriToReplace"; // This will be replaced automatically
 
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 10,
     layersOrder: [
-      { name: "Background" },
+      // { name: "Mantosky"  },
       { name: "Eyeball" },
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
       { name: "Bottom lid" },
       { name: "Top lid" },
+      
     ],
   },
 ];
@@ -99,12 +100,12 @@ const gif = {
 
 const text = {
   only: false,
-  color: "#ffffff",
-  size: 20,
-  xGap: 40,
-  yGap: 40,
+  color: "#000000",
+  size: 40,
+  xGap: 300,
+  yGap: 500,
   align: "left",
-  baseline: "top",
+  baseline: "bottom",
   weight: "regular",
   family: "Courier",
   spacer: " => ",
@@ -115,10 +116,10 @@ const pixelFormat = {
 };
 
 const background = {
-  generate: true,
+  generate: false,
   brightness: "80%",
   static: false,
-  default: "#000000",
+  default: "#fff",
 };
 
 const rarityDelimiter = "#";
@@ -157,7 +158,7 @@ module.exports = {
   text,
   namePrefix,
   network,
-  solanaMetadata,
+  // solanaMetadata,
   gif,
   preview_gif,
   AUTH,
